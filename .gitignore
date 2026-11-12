@@ -89,6 +89,10 @@ vendor/
 # IDE / Development Files
 #-------------------------
 
+# Internal docs & deploy scripts (NOT for public repo)
+AGENTS.md
+deploy.sh
+
 # Modules Testing
 _modules/*
 
