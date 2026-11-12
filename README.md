@@ -26,7 +26,7 @@
 > - [Endroid QR Code Generator](https://github.com/endroid/qr-code)
 > - [Mebjas Html5-QRCode Scanner](https://github.com/mebjas/html5-qrcode)
 
-## Cara Penggunaan
+## Cara Penggunaan (Development)
 
 ### Persyaratan
 
@@ -34,7 +34,7 @@
 - PHP 8.1+ dan MySQL atau [XAMPP](https://www.apachefriends.org/download.html) versi 8.1+ dengan mengaktifkan extension `-intl` dan `-gd`.
 - (Opsional) Kamera/webcam untuk menjalankan qr scanner. Bisa juga menggunakan kamera HP dengan bantuan software DroidCam.
 
-### Instalasi
+### Instalasi Local
 
 - Unduh dan impor kode proyek ini ke dalam direktori proyek anda (htdocs).
 - Penting ⚠️. Jika belum memiliki file `.env`, salin/rename file `.env.example` menjadi `.env`
@@ -84,19 +84,156 @@ email    : superadmin@admin.com
 password : superadmin
 ```
 
-## Contributing
+---
+
+## Deploy Production (maktabah.syathiby.id)
+
+### Persiapan Server
+
+1. **Web Server**: Apache/Nginx dengan PHP 8.1+
+2. **Database**: MySQL/MariaDB
+3. **SSL**: Let's Encrypt atau sertifikat SSL valid untuk `maktabah.syathiby.id`
+4. **Document Root**: Arahkan ke folder `public/`
+
+### Konfigurasi Apache (contoh)
+
+```apache
+<VirtualHost *:443>
+    ServerName maktabah.syathiby.id
+    DocumentRoot /path/to/maktabah.syathiby.id/public
+    
+    <Directory /path/to/maktabah.syathiby.id/public>
+        AllowOverride All
+        Require all granted
+    </Directory>
+    
+    SSLEngine on
+    SSLCertificateFile /path/to/cert.pem
+    SSLCertificateKeyFile /path/to/privkey.pem
+    SSLCertificateChainFile /path/to/chain.pem
+</VirtualHost>
+
+<VirtualHost *:80>
+    ServerName maktabah.syathiby.id
+    Redirect permanent / https://maktabah.syathiby.id/
+</VirtualHost>
+```
+
+### Langkah Deploy
+
+1. **Clone repository** ke server:
+   ```bash
+   git clone git@github.com:syathiby/maktabah.syathiby.id.git
+   cd maktabah.syathiby.id
+   ```
+
+2. **Checkout branch dev** (atau main untuk production):
+   ```bash
+   git checkout dev
+   ```
+
+3. **Install dependencies**:
+   ```bash
+   composer install --no-dev --optimize-autoloader
+   ```
+
+4. **Setup .env production**:
+   ```bash
+   cp .env.example .env
+   # Edit .env dengan konfigurasi production:
+   # - app.baseURL = 'https://maktabah.syathiby.id/'
+   # - database credentials
+   # - encryption.key (generate dengan: php spark key:generate --force)
+   # - cookie.secure = true
+   ```
+
+5. **Generate encryption key**:
+   ```bash
+   php spark key:generate --force
+   ```
+
+6. **Run migrations**:
+   ```bash
+   php spark migrate --all
+   ```
+
+7. **Create superadmin user**:
+   ```bash
+   php spark db:seed SuperAdminSeeder
+   ```
+
+8. **Set permissions** (Linux):
+   ```bash
+   chmod -R 755 writable/
+   chown -R www-data:www-data writable/
+   ```
+
+9. **Clear cache**:
+   ```bash
+   php spark cache:clear
+   php spark optimize
+   ```
+
+### Git Workflow
+
+Sesuai standar project SyathibyEcosystem:
+
+- **Branch `dev`** → development branch, push changes di sini
+- **Branch `main`** → production ready, merge dari dev setelah testing
+- **Branch `staging`** (jika ada) → staging environment
+
+```bash
+# Development workflow
+git checkout dev
+# ... edit files ...
+git add <files>
+git commit -m "feat: description"
+git push origin dev
+# ⏸ TUNGGU INSTRUKSI USER untuk lanjut staging/prod
+
+# Deploy ke production (setelah approval user)
+git checkout main
+git merge dev --no-ff -m "release: vX.Y.Z"
+git push origin main
+git checkout dev  # ← WAJIB switch back ke dev
+```
+
+### Struktur Database
+
+Migrasi database terletak di `app/Database/Migrations/`:
+- `2023-08-12-000001_CreateRacksTable.php`
+- `2023-08-12-000002_CreateCategoriesTable.php`
+- `2023-08-12-000003_CreateBooksTable.php`
+- `2023-08-12-000004_CreateBookStockTable.php`
+- `2023-08-12-000005_CreateMembersTable.php`
+- `2023-08-12-000006_CreateLoansTable.php`
+- `2023-08-12-000007_CreateFinesTable.php`
+- `2024-07-08-045735_CreateFinesPerDayTable.php`
+
+### Upstream Repository
+
+Fork dari: [ikhsan3adi/sistem-perpustakaan-qr-code](https://github.com/ikhsan3adi/sistem-perpustakaan-qr-code)
+
+Remote `upstream` sudah dikonfigurasi:
+```bash
+git fetch upstream
+git merge upstream/main  # untuk sinkronisasi dengan upstream
+```
+
+### Contributing
 
 Kami menerima kontribusi dari komunitas terbuka untuk meningkatkan aplikasi ini. Jika Anda menemukan masalah, bug, atau memiliki saran untuk peningkatan, silakan buat issue baru dalam repositori ini atau ajukan pull request.
 
-## Donasi
+### Donasi
 
 [![Donate paypal](https://img.shields.io/badge/Donate-PayPal-green.svg?style=for-the-badge)](https://paypal.me/xannxett?country.x=ID&locale.x=en_US)
 [![Donate saweria](https://img.shields.io/badge/Donate-Saweria-red?style=for-the-badge&link=https%3A%2F%2Fsaweria.co%2Fxiboxann)](https://saweria.co/xiboxann)
 
-## Lisensi
+### Lisensi
 
 [![GitHub license](https://img.shields.io/github/license/ikhsan3adi/sistem-perpustakaan-qr-code?style=for-the-badge)](https://github.com/ikhsan3adi/sistem-perpustakaan-qr-code/raw/main/LICENSE)
 
-## Authors
+### Authors
 
-- [@ikhsan3adi](https://www.github.com/ikhsan3adi)
+- [@ikhsan3adi](https://www.github.com/ikhsan3adi) - Original author
+- Syathiby Team - Fork & deployment untuk maktabah.syathiby.id
