@@ -173,7 +173,7 @@ class BooksController extends ResourceController
             $coverImageFileName = uploadBookCover($coverImage);
         }
 
-        $slug = url_title($this->request->getVar('title') . ' ' . rand(0, 1000), '-', true);
+        $slug = url_title(toValidUtf8($this->request->getVar('title') . ' ' . rand(0, 1000)), '-', true);
 
         if (!$this->bookModel->save([
             'slug' => $slug,
@@ -288,7 +288,7 @@ class BooksController extends ResourceController
         }
 
         $slug = $this->request->getVar('title') != $book['title']
-            ? url_title($this->request->getVar('title') . ' ' . rand(0, 1000), '-', true)
+            ? url_title(toValidUtf8($this->request->getVar('title') . ' ' . rand(0, 1000)), '-', true)
             : $book['slug'];
 
         if (!$this->bookModel->save([

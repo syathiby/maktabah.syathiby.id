@@ -99,7 +99,7 @@ class ReturnsController extends ResourceController
 
         if ($this->request->getGet('update-qr-code')) {
             $qrGenerator = new QRGenerator();
-            $qrCodeLabel = substr($loan['first_name'] . ($loan['last_name'] ? " {$loan['last_name']}" : ''), 0, 12) . '_' . substr($loan['title'], 0, 12);
+            $qrCodeLabel = truncateUtf8($loan['first_name'] . ($loan['last_name'] ? " {$loan['last_name']}" : ''), 12) . '_' . truncateUtf8($loan['title'], 12);
             $qrCode = $qrGenerator->generateQRCode(
                 $loan['uid'],
                 labelText: $qrCodeLabel,
@@ -304,7 +304,7 @@ class ReturnsController extends ResourceController
 
         $qrGenerator = new QRGenerator();
 
-        $qrCodeLabel = substr($loan['first_name'] . ($loan['last_name'] ? " {$loan['last_name']}" : ''), 0, 12) . '_' . substr($loan['title'], 0, 12);
+        $qrCodeLabel = truncateUtf8($loan['first_name'] . ($loan['last_name'] ? " {$loan['last_name']}" : ''), 12) . '_' . truncateUtf8($loan['title'], 12);
 
         $qrCode = $qrGenerator->generateQRCode(
             data: $loan['uid'],

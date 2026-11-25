@@ -38,6 +38,7 @@
       <?php foreach ($books as $book) : ?>
         <?php
         $coverImageFilePath = BOOK_COVER_URI . $book['book_cover'];
+        $bookTitle = toValidUtf8($book['title']);
         ?>
         <style>
           #coverBook<?= $book['id']; ?> {
@@ -58,7 +59,7 @@
             </div>
             <div class="card-body pt-3 p-4">
               <h6 class="fw-semibold fs-4">
-                <?= substr($book['title'], 0, 64) . ((strlen($book['title']) > 64) ? '...'  : '') . " ({$book['year']})"; ?>
+                <?= truncateUtf8($bookTitle, 64) . ((mb_strlen($bookTitle, 'UTF-8') > 64) ? '...'  : '') . " ({$book['year']})"; ?>
               </h6>
             </div>
           </div>

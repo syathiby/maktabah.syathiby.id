@@ -49,7 +49,11 @@ class QRGenerator
     ) {
         if (!file_exists($dir)) mkdir($dir);
 
-        $filename = url_title(substr($filename, 0, 16), lowercase: true) . '_'
+        // Nama file dibatasi ASCII karena label anggota/buku bisa memuat huruf
+        // Arab, sedangkan nama file ini dipakai langsung sebagai URL.
+        $baseName = stripNonAscii(truncateUtf8($filename, 16));
+
+        $filename = url_title($baseName, lowercase: true) . '_'
             . substr(sha1($filename . rand(0, 1000)), 19, 5) . '_'
             . time() . '.png';
 
@@ -57,7 +61,7 @@ class QRGenerator
         $this->writer
             ->write(
                 qrCode: $this->qrCode->setData($data),
-                label: $labelText ? $this->label->setText($labelText) : null,
+                label: $labelText ? $this->label->setText(toValidUtf8($labelText)) : null,
                 logo: $logoPath ? $this->logo->setPath($logoPath) : null
             )
             ->saveToFile(path: $dir . $filename);
