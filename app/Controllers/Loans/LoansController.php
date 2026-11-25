@@ -290,7 +290,7 @@ class LoansController extends ResourceController
 
         foreach ($bookSlugs as $slug) {
             $validation['quantity-' . $slug] = 'required|numeric|integer|greater_than[0]|less_than_equal_to[10]';
-            $validation['duration-' . $slug] = 'required|numeric|integer|greater_than[0]|less_than_equal_to[30]';
+            $validation['duration-' . $slug] = 'required|numeric|integer|greater_than[0]|less_than_equal_to[' . MAX_LOAN_DURATION . ']';
         }
 
         if (!$this->validate($validation)) {

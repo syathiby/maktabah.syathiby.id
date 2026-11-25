@@ -67,29 +67,21 @@
                     <div id="bookStock" class="form-text">Stok: <?= $book['stock']; ?></div>
                   </div>
                   <div class="col-5">
-                    <label class="form-label">Lama meminjam</label>
+                    <label for="duration-<?= $book['slug']; ?>" class="form-label">Lama meminjam</label>
                     <div class="my-2 <?php if ($validation->hasError("duration-{$book['slug']}")) : ?>is-invalid<?php endif ?>">
-                      <div class="form-check form-check-inline">
-                        <input type="radio" class="form-check-input" id="7days-<?= $book['slug']; ?>" name="duration-<?= $book['slug']; ?>" value="7" <?= ($oldInput['duration-' . $book['slug']] ?? '') == '7' ? 'checked' : ''; ?> required>
-                        <label class="form-check-label" for="7days-<?= $book['slug']; ?>">
-                          7 hari
-                        </label>
-                      </div>
-                      <div class="form-check form-check-inline">
-                        <input type="radio" class="form-check-input" id="14days-<?= $book['slug']; ?>" name="duration-<?= $book['slug']; ?>" value="14" <?= ($oldInput['duration-' . $book['slug']] ?? '') == '14' ? 'checked' : ''; ?> required>
-                        <label class="form-check-label" for="14days-<?= $book['slug']; ?>">
-                          14 hari
-                        </label>
-                      </div>
-                      <div class="form-check form-check-inline">
-                        <input type="radio" class="form-check-input" id="30days-<?= $book['slug']; ?>" name="duration-<?= $book['slug']; ?>" value="30" <?= ($oldInput['duration-' . $book['slug']] ?? '') == '30' ? 'checked' : ''; ?> required>
-                        <label class="form-check-label" for="30days-<?= $book['slug']; ?>">
-                          30 hari
-                        </label>
+                      <div class="input-group">
+                        <input type="number" class="form-control <?php if ($validation->hasError("duration-{$book['slug']}")) : ?>is-invalid<?php endif ?>" id="duration-<?= $book['slug']; ?>" name="duration-<?= $book['slug']; ?>" value="<?= $oldInput['duration-' . $book['slug']] ?? DEFAULT_LOAN_DURATION; ?>" min="1" max="<?= MAX_LOAN_DURATION; ?>" aria-describedby="durationHelp-<?= $book['slug']; ?>" required>
+                        <span class="input-group-text">hari</span>
                       </div>
                     </div>
                     <div class="invalid-feedback">
                       <?= $validation->getError("duration-{$book['slug']}"); ?>
+                    </div>
+                    <div id="durationHelp-<?= $book['slug']; ?>" class="form-text">
+                      <button type="button" class="btn btn-outline-secondary btn-sm py-0 px-2" data-duration-target="duration-<?= $book['slug']; ?>" data-duration-value="7">7</button>
+                      <button type="button" class="btn btn-outline-secondary btn-sm py-0 px-2" data-duration-target="duration-<?= $book['slug']; ?>" data-duration-value="14">14</button>
+                      <button type="button" class="btn btn-outline-secondary btn-sm py-0 px-2" data-duration-target="duration-<?= $book['slug']; ?>" data-duration-value="30">30</button>
+                      <span class="ms-1">hari cepat, maks. <?= MAX_LOAN_DURATION; ?> hari</span>
                     </div>
                   </div>
                 </div>
@@ -106,6 +98,15 @@
 
 <?= $this->section('scripts') ?>
 <script>
+  document.querySelectorAll('[data-duration-value]').forEach(function (button) {
+    button.addEventListener('click', function () {
+      var input = document.getElementById(this.dataset.durationTarget);
 
+      if (input) {
+        input.value = this.dataset.durationValue;
+        input.focus();
+      }
+    });
+  });
 </script>
 <?= $this->endSection() ?>
