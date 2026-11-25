@@ -225,7 +225,8 @@ class LoansController extends ResourceController
             }, $loans),
             function ($carry, $item) {
                 return ($carry + $item);
-            }
+            },
+            0
         );
 
         return $book['quantity'] - $loanCount;

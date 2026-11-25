@@ -103,7 +103,8 @@ class BooksController extends ResourceController
             }, $loans),
             function ($carry, $item) {
                 return ($carry + $item);
-            }
+            },
+            0
         );
 
         $bookStock = $book['quantity'] - $loanCount;

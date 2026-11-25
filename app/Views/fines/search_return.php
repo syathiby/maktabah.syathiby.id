@@ -114,13 +114,18 @@
   html5QrcodeScanner.render(onScanSuccess, onScanFailure);
 
   setTimeout(() => {
-    const startBtn = document.querySelector('#html5-qrcode-button-camera-start');
-    const stopBtn = document.querySelector('#html5-qrcode-button-camera-stop');
-    const fileBtn = document.querySelector('#html5-qrcode-button-file-selection');
+    // Tombol scanner tidak selalu ada, mis. kamera tidak tersedia di perangkat.
+    const scannerButtons = [
+      document.querySelector('#html5-qrcode-button-camera-start'),
+      document.querySelector('#html5-qrcode-button-camera-stop'),
+      document.querySelector('#html5-qrcode-button-file-selection'),
+    ];
 
-    startBtn.classList.add('btn', 'btn-primary', 'mb-2');
-    stopBtn.classList.add('btn', 'btn-primary', 'mb-2');
-    fileBtn.classList.add('btn', 'btn-primary', 'mb-2');
+    scannerButtons.forEach((button) => {
+      if (button) {
+        button.classList.add('btn', 'btn-primary', 'mb-2');
+      }
+    });
   }, 3000);
 </script>
 <?= $this->endSection() ?>

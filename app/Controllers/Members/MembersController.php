@@ -95,7 +95,8 @@ class MembersController extends ResourceController
             }, $loans),
             function ($carry, $item) {
                 return ($carry + $item);
-            }
+            },
+            0
         );
 
         $return = array_filter($loans, function ($loan) {
@@ -112,7 +113,8 @@ class MembersController extends ResourceController
             }, $fines),
             function ($carry, $item) {
                 return ($carry + $item);
-            }
+            },
+            0
         );
 
         $paidFines = array_reduce(
@@ -121,7 +123,8 @@ class MembersController extends ResourceController
             }, $fines),
             function ($carry, $item) {
                 return ($carry + $item);
-            }
+            },
+            0
         );
 
         $unpaidFines = $totalFines - $paidFines;

@@ -112,7 +112,7 @@ defined('BOOK_COVER_PATH') || define('BOOK_COVER_PATH', UPLOADS_PATH . 'book_cov
  * 
  * `uploads/book_cover/`
  */
-defined('BOOK_COVER_URI') || define('BOOK_COVER_URI', 'uploads' . DIRECTORY_SEPARATOR . 'book_cover' . DIRECTORY_SEPARATOR);
+defined('BOOK_COVER_URI') || define('BOOK_COVER_URI', 'uploads/book_cover/');
 
 /**
  * Default book cover filename
@@ -136,7 +136,7 @@ defined('MEMBERS_QR_CODE_PATH') || define('MEMBERS_QR_CODE_PATH', QR_CODES_PATH 
  * Member's QR code uri
  * `uploads/qr_codes/members/`
  */
-defined('MEMBERS_QR_CODE_URI') || define('MEMBERS_QR_CODE_URI', 'uploads' . DIRECTORY_SEPARATOR . 'qr_codes' . DIRECTORY_SEPARATOR . 'members' . DIRECTORY_SEPARATOR);
+defined('MEMBERS_QR_CODE_URI') || define('MEMBERS_QR_CODE_URI', 'uploads/qr_codes/members/');
 
 /**
  * Loan's QR code path
@@ -148,7 +148,7 @@ defined('LOANS_QR_CODE_PATH') || define('LOANS_QR_CODE_PATH', QR_CODES_PATH . 'l
  * Loan's QR code uri
  * `uploads/qr_codes/loans/`
  */
-defined('LOANS_QR_CODE_URI') || define('LOANS_QR_CODE_URI', 'uploads' . DIRECTORY_SEPARATOR . 'qr_codes' . DIRECTORY_SEPARATOR . 'loans' . DIRECTORY_SEPARATOR);
+defined('LOANS_QR_CODE_URI') || define('LOANS_QR_CODE_URI', 'uploads/qr_codes/loans/');
 
 /**
  * Default loan duration in days

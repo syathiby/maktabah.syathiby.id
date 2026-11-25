@@ -60,7 +60,8 @@ class DashboardController extends ResourceController
             }, $books),
             function ($carry, $item) {
                 return ($carry + $item);
-            }
+            },
+            0
         );
 
         return [
@@ -178,7 +179,8 @@ class DashboardController extends ResourceController
             }, $finesDataLastMonth),
             function ($carry, $item) {
                 return ($carry + $item);
-            }
+            },
+            0
         );
         $fineIncomeLastMonth['month'] = $now->subMonths(1)->toLocalizedString('MMMM Y');
 
@@ -188,7 +190,8 @@ class DashboardController extends ResourceController
             }, $finesDataThisMonth),
             function ($carry, $item) {
                 return ($carry + $item);
-            }
+            },
+            0
         );
         $fineIncomeThisMonth['month'] = $now->toLocalizedString('MMMM Y');
 
@@ -208,7 +211,8 @@ class DashboardController extends ResourceController
             }, $fines),
             function ($carry, $item) {
                 return ($carry + $item);
-            }
+            },
+            0
         );
 
         $totalFinesPaid = array_reduce(
@@ -220,7 +224,8 @@ class DashboardController extends ResourceController
             }, $fines),
             function ($carry, $item) {
                 return ($carry + $item);
-            }
+            },
+            0
         );
 
         $fines = $this->fineModel->limit(100)->orderBy('created_at')->findAll();

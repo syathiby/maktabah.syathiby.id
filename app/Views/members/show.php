@@ -68,7 +68,7 @@ if (session()->getFlashdata('msg')) : ?>
                       'Email'         => $member['email'],
                       'Nomor telepon' => $member['phone'],
                       'Alamat'        => $member['address'],
-                      'Tanggal lahir' => Time::parse($member['date_of_birth'], locale: 'id')->toLocalizedString('d MMMM Y'),
+                      'Tanggal lahir' => empty($member['date_of_birth']) ? '-' : Time::parse($member['date_of_birth'], locale: 'id')->toLocalizedString('d MMMM Y'),
                       'Jenis kelamin' => $member['gender'] == 'Male' ? 'Laki-laki' : 'Perempuan',
                     ];
                     ?>

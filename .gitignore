@@ -62,6 +62,9 @@ writable/uploads/*
 
 writable/debugbar/*
 
+# CI4 4.6+: session bisa ditulis ke public/writable saat dev server jalan
+public/writable/*
+
 php_errors.log
 
 #-------------------------
